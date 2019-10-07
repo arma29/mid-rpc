@@ -44,7 +44,7 @@ func (SRH) Send(msg []byte) {
 
 	// Send Message
 	msgLengthBytes := make([]byte, 4)
-	msgLength := uint32(len(msgLengthBytes))
+	msgLength := uint32(len(msg))
 
 	binary.LittleEndian.PutUint32(msgLengthBytes, msgLength)
 	_ , err = conn.Write(msgLengthBytes)

@@ -11,7 +11,7 @@ type FibonacciProxy struct {
 	Proxy clientProxy.ClientProxy
 }
 
-func newFibonacciProxy() FibonacciProxy {
+func NewFibonacciProxy() FibonacciProxy {
 	p := new(FibonacciProxy)
 
 	p.Proxy.Host = "localhost"
@@ -20,17 +20,17 @@ func newFibonacciProxy() FibonacciProxy {
 	return *p
 }
 
-func (p FibonacciProxy) getFibOf(n int) int {
+func (p FibonacciProxy) GetFibOf(n int) int {
 
 	param := make([]interface{}, 1)
 	param[0] = n
 
-	request := aux.Request{Op:"GetFib", Params: param}
+	request := aux.Request{Op:"GetFibo", Params: param}
 	invoc := aux.Invocation{Host: p.Proxy.Host, Port: p.Proxy.Port, Request: request}
 
 	// Invocando requestor
 	req := requestor.Requestor{}
 	res := req.Invoke(invoc).([]interface{})
-
-	return int(res[0].(int32))
+	
+	return int(res[0].(float64))
 }

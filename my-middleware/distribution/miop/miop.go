@@ -26,7 +26,6 @@ type RequestBody struct {
 }
 
 type ResponseHeader struct {
-	RequestId int
 }
 
 type ResponseBody struct {
