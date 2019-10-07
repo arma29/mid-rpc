@@ -1,0 +1,58 @@
+package srh
+
+import (
+	"net"
+	"strconv"
+	"encoding/binary"
+	"github.com/arma29/mid-rpc/shared"
+)
+
+type SRH struct {
+	ServerHost string
+	ServerPort int
+}
+
+var listener net.Listener
+var conn net.Conn
+
+func (srh SRH) Receive() []byte {
+
+	listener, err = net.Listen("tcp", srh.ServerHost+":"+strconv.Itoa(srh.ServerPort))
+	shared.CheckError(err)
+
+	conn, err = listener.Accept()
+	shared.CheckError(err)
+
+	// Receive Message
+	msgLengthBytes := make([]byte, 4)
+	_, err = conn.Read(msgLengthBytes)
+	shared.CheckError(err)
+
+	msgLength := binary.LittleEndian.Uint32(msgLengthBytes)
+
+	// receive message
+	msg := make([]byte, msgLength)
+	_, err = conn.Read(msg)
+	shared.CheckError(err)
+
+	return msg
+}
+
+
+func (SRH) Send(msg []byte) {
+
+	// Send Message
+	msgLengthBytes := make([]byte, 4)
+	msgLength := uint32(len(msgLengthBytes))
+
+	binary.LittleEndian.PutUint32(msgLengthBytes, msgLength)
+	_ , err = conn.Write(size)
+	shared.CheckError(err)
+
+	_, err = conn.Write(msg)
+	shared.CheckError(err)
+
+	conn.Close()
+	listener.Close()
+}
+

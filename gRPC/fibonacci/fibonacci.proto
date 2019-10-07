@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package fibonacci;
+
+service Fibonacci {
+    rpc getFibo(FibRequest) returns (FibResponse) {}
+}
+
+// Mensagem de Request
+message FibRequest {
+    int32 number = 1;
+}
+
+// Mensagem de Response
+message FibResponse {
+    int32 number = 1;
+}
