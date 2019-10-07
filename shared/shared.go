@@ -8,6 +8,7 @@ import (
 const SAMPLE_SIZE = 14000 // Warm-up: 30% , Post: 10%
 
 const SERVER_PORT = 7200
+const NS_PORT = 7300
 const GRPC_PORT = 7272
 
 func CheckError(err error) {

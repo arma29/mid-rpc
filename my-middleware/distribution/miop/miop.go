@@ -26,6 +26,9 @@ type RequestBody struct {
 }
 
 type ResponseHeader struct {
+	Context string
+	RequestId int
+	Status int
 }
 
 type ResponseBody struct {
