@@ -18,7 +18,6 @@ type Body struct {
 }
 
 type RequestHeader struct {
-	RequestId int
 	Operation string
 }
 

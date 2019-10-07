@@ -1,7 +1,8 @@
 package fibProxy;
 
 import (
-	"github.com/arma29/mid-rpc/my-middleware/distribution/clientProxy"
+	clientProxy "github.com/arma29/mid-rpc/my-middleware/distribution/clientProxy"
+	requestor "github.com/arma29/mid-rpc/my-middleware/distribution/requestor"
 	"github.com/arma29/mid-rpc/my-middleware/aux"
 	"github.com/arma29/mid-rpc/shared"
 )
@@ -16,20 +17,20 @@ func newFibonacciProxy() FibonacciProxy {
 	p.Proxy.Host = "localhost"
 	p.Proxy.Port = shared.SERVER_PORT
 
-	return p
+	return *p
 }
 
 func (p FibonacciProxy) getFibOf(n int) int {
 
 	param := make([]interface{}, 1)
-	param[0] := n
+	param[0] = n
 
 	request := aux.Request{Op:"GetFib", Params: param}
 	invoc := aux.Invocation{Host: p.Proxy.Host, Port: p.Proxy.Port, Request: request}
 
 	// Invocando requestor
 	req := requestor.Requestor{}
-	res := req.Invoker(inv).([]interface{})
+	res := req.Invoke(invoc).([]interface{})
 
 	return int(res[0].(int32))
 }

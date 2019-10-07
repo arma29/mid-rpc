@@ -3,7 +3,7 @@ package crh
 import (
 	"net"
 	"strconv"
-	"enconding/binary"
+	"encoding/binary"
 	"github.com/arma29/mid-rpc/shared"
 )
 
@@ -25,15 +25,14 @@ func (crh CRH) SendReceive(msg []byte) []byte {
 		}
 	}
 
-	defer conn.Close
+	defer conn.Close()
 
 	// Send message to Server
-	msgSize := make([]byte, 4)
+	msgLengthBytes := make([]byte, 4)
 	length := uint32(len(msg))
 
-	binary.LittleEndian.PutUint32(sizeMsgToServer, length)
-	_, err := conn.Write(length)
-	shared.CheckError(err)
+	binary.LittleEndian.PutUint32(msgLengthBytes, length)
+	conn.Write(msgLengthBytes)
 	
 	_, err = conn.Write(msg)
 	shared.CheckError(err)
@@ -41,7 +40,7 @@ func (crh CRH) SendReceive(msg []byte) []byte {
 
 	// Receiver Message
 	msgReceivedLengthBytes := make([]byte, 4)
-	_, err = conn.Read(msgReceivedLength)
+	_, err = conn.Read(msgReceivedLengthBytes)
 	shared.CheckError(err)
 
 	msgReceivedLengthInt := binary.LittleEndian.Uint32(msgReceivedLengthBytes)

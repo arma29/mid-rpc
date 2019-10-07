@@ -14,6 +14,7 @@ type SRH struct {
 
 var listener net.Listener
 var conn net.Conn
+var err error
 
 func (srh SRH) Receive() []byte {
 
@@ -46,7 +47,7 @@ func (SRH) Send(msg []byte) {
 	msgLength := uint32(len(msgLengthBytes))
 
 	binary.LittleEndian.PutUint32(msgLengthBytes, msgLength)
-	_ , err = conn.Write(size)
+	_ , err = conn.Write(msgLengthBytes)
 	shared.CheckError(err)
 
 	_, err = conn.Write(msg)
