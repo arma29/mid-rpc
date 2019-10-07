@@ -3,7 +3,7 @@ package marshaller
 import (
 	"encoding/json"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/miop"
-	"shared"
+	"github.com/arma29/mid-rpc/shared"
 )
 
 type Marshaller struct {}
