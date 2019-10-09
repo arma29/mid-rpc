@@ -14,7 +14,7 @@ type NamingProxy struct{}
 func CheckRepository(proxy clientProxy.ClientProxy) interface{}{
 	var clientProxy interface{}
 
-	fiboProxy := fibProxy.NewFibonacciProxy()
+	fiboProxy := fibProxy.NewFibonacciProxy(proxy.ObjectID)
 	fiboProxy.Proxy.Host = proxy.Host
 	fiboProxy.Proxy.Port = proxy.Port
 	clientProxy = fiboProxy

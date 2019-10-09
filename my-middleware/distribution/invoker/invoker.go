@@ -6,7 +6,8 @@ import (
 	"github.com/arma29/mid-rpc/my-middleware/distribution/miop"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/lcm"
 	"github.com/arma29/mid-rpc/shared"
-	"github.com/arma29/mid-rpc/application"
+	app "github.com/arma29/mid-rpc/application"
+	//fibProxy "github.com/arma29/mid-rpc/application/fibProxy"
 )
 
 type FibonacciInvoker struct {
@@ -35,7 +36,8 @@ func (inv FibonacciInvoker) Invoke() {
 		
 		if (operation == "GetFibo") {
 			n := int32(miopPacketRequest.Body.RequestBody.Body[0].(float64))
-			resultParams[0] = lcmInstance.getRemoteObjectByID(objectID).GetFibOf(n)
+			fibApp := lcmInstance.GetRemoteObjectByID(objectID).(*app.FibonacciApp)
+			resultParams[0] = fibApp.GetFibOf(n)
 		}
 
 		resHeader := miop.ResponseHeader{}

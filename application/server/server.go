@@ -3,17 +3,13 @@ package main
 import (
 	"fmt"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/invoker"
-	"github.com/arma29/mid-rpc/application/fibProxy"
-	"github.com/arma29/mid-rpc/my-middleware/naming/proxy"
+	"github.com/arma29/mid-rpc/my-middleware/distribution/lcm"
 )
 
 func main() {
 
-	namingProxy := proxy.NamingProxy{}
-
-	fibonacciApp := fibProxy.NewFibonacciProxy()
-
-	namingProxy.Register("Fibonacci", fibonacciApp)
+	lcmInstance := lcm.LCM{}
+	lcmInstance.RegisterFibonacci()
 
 	fmt.Println("Server listening")
 	fibonacciInvoker := invoker.NewFibonnaciInvoker()

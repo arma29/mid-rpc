@@ -7,20 +7,17 @@ import (
 	"github.com/arma29/mid-rpc/shared"
 )
 
-var objectID = 0
-
 type FibonacciProxy struct {
 	Proxy clientProxy.ClientProxy
 }
 
-func NewFibonacciProxy() FibonacciProxy {
+
+func NewFibonacciProxy(objectID int) FibonacciProxy {
 	p := new(FibonacciProxy)
 
 	p.Proxy.Host = "localhost"
 	p.Proxy.Port = shared.SERVER_PORT
 	p.Proxy.ObjectID = objectID
-	
-	objectID += 1
 
 	return *p
 }

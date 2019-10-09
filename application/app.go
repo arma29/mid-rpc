@@ -4,12 +4,12 @@ var remoteFibID = 0
 
 // For my-middleware
 type FibonacciApp struct {
-	id int
+	ObjectID int
 }
 
 func GetFibonacciApp() *FibonacciApp {
 	app := new(FibonacciApp)
-	app.id = remoteFibID
+	app.ObjectID = remoteFibID
 
 	remoteFibID += 1
 	
