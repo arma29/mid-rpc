@@ -28,7 +28,6 @@ func (naming *NamingService) Register(name string, proxy clientProxy.ClientProxy
 }
 
 func (naming NamingService) Lookup(name string) clientProxy.ClientProxy {
-
 	return naming.Repository[name]
 }
 

@@ -40,7 +40,6 @@ func (crh CRH) SendReceive(msg []byte) []byte {
 
 	// Receiver Message
 	msgReceivedLengthBytes := make([]byte, 4)
-
 	_, err = conn.Read(msgReceivedLengthBytes)
 
 	if err != nil {

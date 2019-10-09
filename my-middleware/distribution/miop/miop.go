@@ -19,6 +19,7 @@ type Body struct {
 
 type RequestHeader struct {
 	Operation string
+	ObjectID int
 }
 
 type RequestBody struct {

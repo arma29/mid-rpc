@@ -5,8 +5,6 @@ import (
 	"strconv"
 	"encoding/binary"
 	"github.com/arma29/mid-rpc/shared"
-
-	"fmt"
 )
 
 type SRH struct {

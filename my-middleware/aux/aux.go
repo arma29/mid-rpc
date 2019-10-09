@@ -8,5 +8,6 @@ type Request struct {
 type Invocation struct {
 	Host string
 	Port int
+	ObjectID int
 	Request Request
 }

@@ -7,6 +7,8 @@ import (
 	"github.com/arma29/mid-rpc/shared"
 )
 
+var objectID = 0
+
 type FibonacciProxy struct {
 	Proxy clientProxy.ClientProxy
 }
@@ -16,6 +18,9 @@ func NewFibonacciProxy() FibonacciProxy {
 
 	p.Proxy.Host = "localhost"
 	p.Proxy.Port = shared.SERVER_PORT
+	p.Proxy.ObjectID = objectID
+	
+	objectID += 1
 
 	return *p
 }
@@ -26,7 +31,7 @@ func (p FibonacciProxy) GetFibOf(n int) int {
 	param[0] = n
 
 	request := aux.Request{Op:"GetFibo", Params: param}
-	invoc := aux.Invocation{Host: p.Proxy.Host, Port: p.Proxy.Port, Request: request}
+	invoc := aux.Invocation{Host: p.Proxy.Host, Port: p.Proxy.Port, ObjectID: p.Proxy.ObjectID, Request: request}
 
 	// Invocando requestor
 	req := requestor.Requestor{}

@@ -4,24 +4,26 @@ import (
 	"github.com/arma29/mid-rpc/my-middleware/infrastructure/srh"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/marshaller"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/miop"
+	"github.com/arma29/mid-rpc/my-middleware/distribution/lcm"
 	"github.com/arma29/mid-rpc/shared"
 	"github.com/arma29/mid-rpc/application"
 )
 
-type FibonacciInvoker struct {}
+type FibonacciInvoker struct {
+}
 
 func NewFibonnaciInvoker() FibonacciInvoker {
 	p := new(FibonacciInvoker)
-
 	return *p
 }
 
-func (FibonacciInvoker) Invoke() {
+func (inv FibonacciInvoker) Invoke() {
 
 	srhInstance := srh.SRH{ ServerHost:"localhost", ServerPort: shared.SERVER_PORT }
 	marshallerInstance := marshaller.Marshaller{}
+	lcmInstance := lcm.LCM{}
 
-	fibonacciApp := application.FibonacciApp{}
+	//fibonacciApp := application.GetFibonacciApp()
 	resultParams := make([]interface{}, 1)
 
 	for {
@@ -29,10 +31,11 @@ func (FibonacciInvoker) Invoke() {
 
 		miopPacketRequest := marshallerInstance.Unmarshal(msgBytes)
 		operation := miopPacketRequest.Body.RequestHeader.Operation
-
+		objectID := miopPacketRequest.Body.RequestHeader.ObjectID
+		
 		if (operation == "GetFibo") {
 			n := int32(miopPacketRequest.Body.RequestBody.Body[0].(float64))
-			resultParams[0] = fibonacciApp.GetFibOf(n)
+			resultParams[0] = lcmInstance.getRemoteObjectByID(objectID).GetFibOf(n)
 		}
 
 		resHeader := miop.ResponseHeader{}
@@ -44,7 +47,6 @@ func (FibonacciInvoker) Invoke() {
 		msgToSendBytes := marshallerInstance.Marshal(miopPacketResponse)
 
 		srhInstance.Send(msgToSendBytes)
-
 	}
 
 }
