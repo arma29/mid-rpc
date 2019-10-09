@@ -5,6 +5,7 @@ import (
 	"github.com/arma29/mid-rpc/my-middleware/distribution/marshaller"
 	"github.com/arma29/mid-rpc/my-middleware/infrastructure/crh"
 	"github.com/arma29/mid-rpc/my-middleware/distribution/miop"
+
 )
 
 type Requestor struct{}
@@ -22,12 +23,12 @@ func (requestor Requestor) Invoke(inv aux.Invocation) interface{} {
 
 	msgRequestBytes := marshallerInstance.Marshal(packetRequest)
 
-
 	msgResponseBytes := crhInstance.SendReceive(msgRequestBytes)
 
 	msgResponsePacket := marshallerInstance.Unmarshal(msgResponseBytes)
 
 	result := msgResponsePacket.Body.ResponseBody.Body
+
 
 	return result
 }

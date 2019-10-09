@@ -23,13 +23,13 @@ func pre() {
 		result := fibonacciApp.GetFibOf(5)
 		t2 := time.Now()
 		x := float64(t2.Sub(t1).Nanoseconds()) / 1000000
-		fmt.Sprintf("%d,%f,%d\n", i, x, result)
+		fmt.Printf("%d,%f,%d\n", i, x, result)
 	}
 }
 
 func main() {
 
-	go pre()
+	pre()
 	fmt.Scanln()
 
 }

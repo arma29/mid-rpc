@@ -20,19 +20,19 @@ func (crh CRH) SendReceive(msg []byte) []byte {
 	for {
 		conn, _ = net.Dial("tcp", crh.ServerHost + ":" + strconv.Itoa(crh.ServerPort))
 
-		if err == nil {
+		if err == nil && conn != nil {
 			break
 		}
 	}
 
-	defer conn.Close()
 
 	// Send message to Server
 	msgLengthBytes := make([]byte, 4)
 	length := uint32(len(msg))
 
 	binary.LittleEndian.PutUint32(msgLengthBytes, length)
-	conn.Write(msgLengthBytes)
+	_, err = conn.Write(msgLengthBytes)
+	shared.CheckError(err)
 	
 	_, err = conn.Write(msg)
 	shared.CheckError(err)
@@ -40,14 +40,21 @@ func (crh CRH) SendReceive(msg []byte) []byte {
 
 	// Receiver Message
 	msgReceivedLengthBytes := make([]byte, 4)
-	_, err = conn.Read(msgReceivedLengthBytes)
-	shared.CheckError(err)
 
+	_, err = conn.Read(msgReceivedLengthBytes)
+
+	if err != nil {
+		conn.Close()
+		return crh.SendReceive(msg)
+	}
+	
 	msgReceivedLengthInt := binary.LittleEndian.Uint32(msgReceivedLengthBytes)
 
 	msgFromServer := make([]byte, msgReceivedLengthInt)
 	_, err = conn.Read(msgFromServer)
 	shared.CheckError(err)
+
+	conn.Close()
 
 	return msgFromServer
 }

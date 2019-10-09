@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"encoding/binary"
 	"github.com/arma29/mid-rpc/shared"
+
+	"fmt"
 )
 
 type SRH struct {
@@ -21,8 +23,13 @@ func (srh SRH) Receive() []byte {
 	listener, err = net.Listen("tcp", srh.ServerHost+":"+strconv.Itoa(srh.ServerPort))
 	shared.CheckError(err)
 
-	conn, err = listener.Accept()
-	shared.CheckError(err)
+	for {
+		conn, err = listener.Accept()
+		if err == nil {
+			break
+		}
+	}
+
 
 	// Receive Message
 	msgLengthBytes := make([]byte, 4)
