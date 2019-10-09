@@ -23,7 +23,7 @@ func pre() {
 		fmt.Printf("%d,%f,%d\n", i, x, result)
 
 		if i % 1000 == 0 {
-			t, _:= time.ParseDuration("10s")
+			t, _:= time.ParseDuration("3s")
 			time.Sleep(t)
 		} 
 
@@ -33,6 +33,6 @@ func pre() {
 func main() {
 
 	pre()
-	fmt.Scanln()
+	// fmt.Scanln()
 
 }

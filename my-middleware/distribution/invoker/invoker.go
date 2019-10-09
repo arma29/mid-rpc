@@ -37,7 +37,9 @@ func (inv FibonacciInvoker) Invoke() {
 		if (operation == "GetFibo") {
 			n := int32(miopPacketRequest.Body.RequestBody.Body[0].(float64))
 			fibApp := lcmInstance.GetRemoteObjectByID(objectID).(*app.FibonacciApp)
+			lcm.PutObjectState(*fibApp, "InUse")
 			resultParams[0] = fibApp.GetFibOf(n)
+			lcm.PutObjectState(*fibApp, "Created")
 		}
 
 		resHeader := miop.ResponseHeader{}
