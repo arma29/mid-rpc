@@ -24,7 +24,6 @@ func (inv FibonacciInvoker) Invoke() {
 	marshallerInstance := marshaller.Marshaller{}
 	lcmInstance := lcm.LCM{}
 
-	//fibonacciApp := application.GetFibonacciApp()
 	resultParams := make([]interface{}, 1)
 
 	for {
